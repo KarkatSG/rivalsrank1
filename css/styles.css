@@ -1,0 +1,71 @@
+/* styles.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #181A26;
+}
+
+h1 {
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* Container for the grid */
+.hero-grid {
+  /* 
+    Uses CSS Grid with auto-fill and minmax to create a responsive layout.
+    Each card will have a minimum width of 150px and grow up to 1fr. 
+  */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;                /* Spacing between grid items */
+  max-width: 1200px;        /* Optional max width for the grid container */
+  margin: 0 auto;           /* Center the grid in the viewport */
+  padding: 0 20px;          /* Side padding */
+}
+
+/* Each hero card link */
+.hero-card {
+  text-align: center;
+  text-decoration: none;    /* Remove underline from links */
+  color: #333;              /* Text color */
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Hero card hover effect (scaling the card slightly if desired) */
+.hero-card:hover {
+  transform: scale(1.02);
+}
+
+/* Image styling */
+.hero-card img {
+  width: 100%;             /* Make images fill the card width */
+  height: auto;            /* Keep aspect ratio */
+  border: 3px solid transparent; 
+}
+
+/* Text under each image */
+.hero-card p {
+  margin: 10px 0 0;
+  font-weight: bold;
+  color: inherit;          /* Inherit color from the parent (the link) */
+}
+
+/* Title Container */
+.title-container {
+  text-align: center; /* Center the image horizontally */
+  margin: 20px 0; /* Add spacing above and below the image */
+  padding: 20px 0;
+}
+
+/* Title Image */
+.title-image {
+  max-width: 80%; /* Scale down the image on smaller screens */
+  height: auto; /* Maintain aspect ratio */
+  display: inline-block; /* Ensure proper alignment */
+}
+
+
+
