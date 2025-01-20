@@ -68,5 +68,33 @@ h1 {
   display: inline-block; /* Ensure proper alignment */
 }
 
+/* Example Leaderboard Table Styles */
+table#leaderboard {
+  width: 80%;
+  margin: 20px auto;    /* Center the table and give top/bottom margin */
+  border-collapse: collapse;
+  color: #fff;          /* Text color for the dark background */
+}
+
+table#leaderboard thead {
+  background-color: #333;
+}
+
+table#leaderboard thead th {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #444;
+}
+
+table#leaderboard tbody td {
+  padding: 10px;
+  border: 1px solid #444;
+  text-align: center;
+}
+
+/* Alternate row coloring for readability */
+table#leaderboard tbody tr:nth-child(even) {
+  background-color: #2c2f3a;
+}
 
 
