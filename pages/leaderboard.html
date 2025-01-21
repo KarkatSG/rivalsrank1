@@ -1,31 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Leaderboard</title>
-  <link rel="stylesheet" href="../css/styles.css">
+  <!-- Link to your main CSS -->
+  <link rel="stylesheet" href="../css/styles.css" />
 </head>
+
 <body>
+  <!-- Sticky "Back to Main" button -->
+  <a href="index.html">
+    <button>
+      <span class="text">Hero Select</span>
+    </button>
+  </a>
   <h1 id="hero-name">Leaderboard</h1>
 
   <table id="leaderboard">
     <thead>
       <tr>
         <th>Rank</th>
-        <th>Player Name</th>
-        <th>Rank Name</th>
-        <th>Score</th>
+        <th>Player</th>
+        <th>Rank</th>
+        <th>Elo</th>
         <th>Matches</th>
       </tr>
     </thead>
     <tbody>
-      <!-- Rows will be dynamically injected here -->
+      <!-- Rows will be dynamically injected here by JavaScript -->
     </tbody>
   </table>
 
+  <!-- Supabase library -->
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-
+  
   <script>
     window.onload = async () => {
       const { createClient } = window.supabase;
@@ -39,9 +48,9 @@
       // Function to format hero name from URL
       function formatHeroName(hero) {
         return hero
-          .split("-") // Split on hyphen
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
-          .join(" "); // Join with spaces
+          .split("-") 
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1)) 
+          .join(" ");
       }
 
       // Mapping rank names to icon file paths
@@ -63,7 +72,7 @@
             .from("leaderboards")
             .select("*")
             .eq("character_name", heroName)
-            .order("rank", { ascending: true }); // Ensures data is sorted by rank
+            .order("rank", { ascending: true });
 
           if (error) {
             console.error("Error fetching leaderboard:", error);
@@ -77,9 +86,9 @@
       }
 
       function getIconForRank(rankName) {
-        // Find the base rank name by checking if the rank contains a key from rankIcons
+        // Matches partial rank names (e.g., "Bronze I" -> "Bronze" key)
         const baseRank = Object.keys(rankIcons).find(base => rankName.includes(base));
-        return baseRank ? rankIcons[baseRank] : "../images/default-icon.png"; // Default icon if no match
+        return baseRank ? rankIcons[baseRank] : "../images/default-icon.png";
       }
 
       function renderLeaderboard(data) {
@@ -87,7 +96,8 @@
         tbody.innerHTML = ""; // Clear previous data
 
         data.forEach(entry => {
-          const iconPath = getIconForRank(entry.rank_name); // Get the icon based on the rank name
+          // Get the icon based on the rank name
+          const iconPath = getIconForRank(entry.rank_name);
           const row = document.createElement("tr");
           row.innerHTML = `
             <td>${entry.rank}</td>
@@ -103,17 +113,18 @@
         });
       }
 
-      // Get hero name from URL and format it
+      // Grab hero from URL, format it, and fetch data
       const urlParams = new URLSearchParams(window.location.search);
       const rawHero = urlParams.get("hero");
       const formattedHero = formatHeroName(rawHero);
 
-      // Update the header and fetch data
       document.getElementById("hero-name").textContent = `${formattedHero} Leaderboard`;
 
-      fetchLeaderboard(formattedHero).then(renderLeaderboard).catch(error => {
-        console.error("Error rendering leaderboard:", error);
-      });
+      fetchLeaderboard(formattedHero)
+        .then(renderLeaderboard)
+        .catch(error => {
+          console.error("Error rendering leaderboard:", error);
+        });
     };
   </script>
 </body>

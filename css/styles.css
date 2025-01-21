@@ -111,24 +111,20 @@ table#leaderboard tbody td {
   border: 1px solid #333;
   text-align: left;
   vertical-align: middle;
+  font-size: 22px;
 }
 
 table#leaderboard tbody tr:nth-child(even) {
   background-color: #2c313c; /* Alternating row colors */
 }
 
-table#leaderboard tbody tr:hover {
-  background-color: #373e4f; /* Highlight row on hover */
-  cursor: pointer;
-}
-
 /* Rank Icon Styling */
 .rank-icon {
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%; /* Optional: make icons circular */
   display: inline-block;
-  margin-right: 10px;
+  margin-right: 8px;
   vertical-align: middle;
 }
 
@@ -145,5 +141,53 @@ table#leaderboard tbody td:nth-child(4) {
   text-align: left;
 }
 
+button {
+  position: fixed;
+  top: 20px;            /* Distance from the top */
+  right: 20px;          /* Distance from the right edge */
+  align-items: center;
+  background-image: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);
+  border: 0;
+  border-radius: 8px;
+  box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+  box-sizing: border-box;
+  color: #ffffff;
+  display: flex;
+  font-size: 28px;
+  justify-content: center;
+  line-height: 1em;
+  max-width: 100%;
+  min-width: 140px;
+  padding: 3px;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: "Refrigerator Deluxe";
+}
 
+button:active,
+button:hover {
+  outline: 0;
+}
+
+button span {
+  background-color: rgb(5, 6, 45);
+  padding: 16px 24px;
+  border-radius: 6px;
+  width: 100%;
+  height: 100%;
+  transition: 300ms;
+}
+
+button:hover span {
+  background: none;
+}
+
+button:active {
+  transform: scale(0.9);
+}
 
