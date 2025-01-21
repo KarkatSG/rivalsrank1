@@ -4,12 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Leaderboard</title>
-  <!-- Link to your main CSS -->
   <link rel="stylesheet" href="../css/styles.css" />
 </head>
 
 <body>
-  <!-- Sticky "Back to Main" button -->
   <a href="index.html">
     <button>
       <span class="text">Hero Select</span>
@@ -17,22 +15,23 @@
   </a>
   <h1 id="hero-name">Leaderboard</h1>
 
-  <table id="leaderboard">
-    <thead>
-      <tr>
-        <th>Rank</th>
-        <th>Player</th>
-        <th>Rank</th>
-        <th>Elo</th>
-        <th>Matches</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Rows will be dynamically injected here by JavaScript -->
-    </tbody>
-  </table>
+  <div class="leaderboard-container">
+    <table id="leaderboard">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Player</th>
+          <th>Rank</th>
+          <th>Elo</th>
+          <th>Matches</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Dynamically injected rows -->
+      </tbody>
+    </table>
+  </div>
 
-  <!-- Supabase library -->
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   
   <script>
@@ -93,7 +92,7 @@
 
       function renderLeaderboard(data) {
         const tbody = document.querySelector("#leaderboard tbody");
-        tbody.innerHTML = ""; // Clear previous data
+        tbody.innerHTML = "";
 
         data.forEach(entry => {
           // Get the icon based on the rank name
