@@ -11,8 +11,8 @@
   <a href="index.html">
     <img src="../images/button.png" alt="More Heroes Button" class="hero-select-btn">
   </a>
-  <h1 id="hero-name">Leaderboard</h1>
-
+  <h1 id="hero-name"></h1>
+  <h2 id="description"></h2>
   <div class="leaderboard-container">
     <table id="leaderboard">
       <thead>
@@ -116,6 +116,7 @@
       const formattedHero = formatHeroName(rawHero);
 
       document.getElementById("hero-name").textContent = `${formattedHero} Leaderboard`;
+      document.getElementById("description").textContent = `Showing top ${formattedHero} players with at least 30 matches played.`;
 
       fetchLeaderboard(formattedHero)
         .then(renderLeaderboard)
