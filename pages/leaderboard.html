@@ -8,12 +8,13 @@
 </head>
 
 <body>
-  <a href="index.html">
-    <img src="../images/button.png" alt="More Heroes Button" class="hero-select-btn">
-  </a>
   <h1 id="hero-name"></h1>
   <h2 id="description"></h2>
-  <div class="leaderboard-container">
+  <a href="index.html" class="back-btn">
+    <img src="../images/button.png" alt="More Heroes Button" class="hero-select-btn">
+  </a>
+
+  <div class="leaderboard-container" style="display: none;">
     <table id="leaderboard">
       <thead>
         <tr>
@@ -92,10 +93,12 @@
         const tbody = document.querySelector("#leaderboard tbody");
         tbody.innerHTML = "";
 
-        data.forEach(entry => {
-          // Get the icon based on the rank name
-          const iconPath = getIconForRank(entry.rank_name);
+        data.forEach((entry, index) => {
+          // Create the row as before
           const row = document.createElement("tr");
+
+          // Build row.innerHTML with your rank/player data ...
+          const iconPath = getIconForRank(entry.rank_name);
           row.innerHTML = `
             <td>${entry.rank}</td>
             <td>
@@ -106,6 +109,12 @@
             <td>${entry.score}</td>
             <td>${entry.matches}</td>
           `;
+
+          if (index < 20) {
+            row.classList.add("fade-in-row");
+            row.style.animationDelay = `${index * 0.1 + 1.2}s`;
+          }
+          
           tbody.appendChild(row);
         });
       }
@@ -115,14 +124,24 @@
       const rawHero = urlParams.get("hero");
       const formattedHero = formatHeroName(rawHero);
 
-      document.getElementById("hero-name").textContent = `${formattedHero} Leaderboard`;
-      document.getElementById("description").textContent = `Showing top ${formattedHero} players with at least 30 matches played.`;
+      const h1 = document.getElementById("hero-name");
+      const h2 = document.getElementById("description");
+      h1.classList.add("fade-in-element");
+      h2.classList.add("fade-in-element");
+      h1.style.animationDelay = "0s";
 
-      fetchLeaderboard(formattedHero)
-        .then(renderLeaderboard)
-        .catch(error => {
-          console.error("Error rendering leaderboard:", error);
-        });
+      const data = await fetchLeaderboard(formattedHero);
+
+      h1.textContent = `${formattedHero} Leaderboard`;
+      h2.textContent = `Showing top ${formattedHero} players with at least 30 matches played.`;
+
+
+      const container = document.querySelector(".leaderboard-container");
+      container.style.display = "block";
+      container.classList.add("fade-in-element");
+      container.style.animationDelay = "0.6s";
+
+      renderLeaderboard(data);
     };
   </script>
 </body>
