@@ -72,9 +72,38 @@ h2 {
 
 /* Title Container */
 .title-container {
-  text-align: center;
-  margin: 20px 0;
-  padding: 20px 0;
+  text-align: center;     
+  padding: 40px 0 5px;    
+  margin: 0;     
+  margin-bottom: 40px;           
+
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    rgba(255, 255, 255, 0.02) 50%,
+    rgba(255, 255, 255, 0.00) 100%
+  );
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.title-container h1 {
+  font-family: "Refrigerator Deluxe", sans-serif; 
+  font-size: 80px;         
+  margin: 0;                
+  text-transform: uppercase; 
+  letter-spacing: 2px;      
+  color: #ffffff;            
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.5); 
+}
+
+.title-container h2 {
+  font-family: "Nunito Sans", sans-serif;
+  margin-top: 10px; 
+  font-size: 26px;    
+  font-weight: 300;    
+  color: #dddddd;    
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* Title Image */
