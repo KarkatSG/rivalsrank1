@@ -44,6 +44,19 @@
           .join(" "); // Join with spaces
       }
 
+      // Mapping rank names to icon file paths
+      const rankIcons = {
+        Bronze: "../images/Bronze.png",
+        Silver: "../images/Silver.png",
+        Gold: "../images/Gold.png",
+        Platinum: "../images/Platinum.png",
+        Diamond: "../images/Diamond.png",
+        Grandmaster: "../images/Grandmaster.png",
+        Celestial: "../images/Celestial.png",
+        Eternity: "../images/Eternity.png",
+        OneAboveAll: "../images/OneAboveAll.png"
+      };
+
       async function fetchLeaderboard(heroName) {
         try {
           const { data, error } = await supabase
@@ -63,15 +76,25 @@
         }
       }
 
+      function getIconForRank(rankName) {
+        // Find the base rank name by checking if the rank contains a key from rankIcons
+        const baseRank = Object.keys(rankIcons).find(base => rankName.includes(base));
+        return baseRank ? rankIcons[baseRank] : "../images/default-icon.png"; // Default icon if no match
+      }
+
       function renderLeaderboard(data) {
         const tbody = document.querySelector("#leaderboard tbody");
         tbody.innerHTML = ""; // Clear previous data
 
         data.forEach(entry => {
+          const iconPath = getIconForRank(entry.rank_name); // Get the icon based on the rank name
           const row = document.createElement("tr");
           row.innerHTML = `
             <td>${entry.rank}</td>
-            <td>${entry.player_name}</td>
+            <td>
+              <img src="${iconPath}" alt="${entry.rank_name} Icon" class="rank-icon">
+              ${entry.player_name}
+            </td>
             <td>${entry.rank_name}</td>
             <td>${entry.score}</td>
             <td>${entry.matches}</td>
