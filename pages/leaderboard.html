@@ -9,7 +9,20 @@
 
 <body>
   <h1 id="hero-name"></h1>
-  <h2 id="description"></h2>
+  <div id="h2-container" style="display: none; width: 100%; justify-content: center;">
+    <h2 id="description">
+      Showing top Hero players with at least 30 matches played.
+    </h2>  
+    <span class="info-icon-container">
+      <img src="../images/info.png" alt="Info Icon" class="info-icon" id="info-icon">
+      <span class="info-tooltip">
+        Data pulled from RivalsMeta.com<br>
+        Minimum rank: Diamond+<br>
+        Minimum matches: 30+<br>
+        Updates every 6 hours
+      </span>
+    </span>
+  </div>
   <a href="index.html" class="back-btn">
     <img src="../images/button.png" alt="More Heroes Button" class="hero-select-btn">
   </a>
@@ -30,6 +43,13 @@
       </tbody>
     </table>
   </div>
+  <footer class="site-footer" id="footer">
+    <p>
+      This website is unofficial and is not affiliated with Marvel Rivals, NetEase, 
+      or RivalsMeta.com in any way. All trademarks and logos are the property of 
+      their respective owners.
+    </p>
+  </footer>  
 
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   
@@ -124,11 +144,17 @@
       const rawHero = urlParams.get("hero");
       const formattedHero = formatHeroName(rawHero);
 
+      const h2container = document.getElementById("h2-container");
       const h1 = document.getElementById("hero-name");
       const h2 = document.getElementById("description");
+      const infoIcon = document.getElementById("info-icon");
+      h2container.style.display = "flex";
       h1.classList.add("fade-in-element");
       h2.classList.add("fade-in-element");
-      h1.style.animationDelay = "0s";
+      infoIcon.classList.add("fade-in-element");
+      h1.style.animationDelay = ".25s";
+      h2.style.animationDelay = ".25s";
+      infoIcon.style.animationDelay = "3s";
 
       const data = await fetchLeaderboard(formattedHero);
 
@@ -139,7 +165,10 @@
       const container = document.querySelector(".leaderboard-container");
       container.style.display = "block";
       container.classList.add("fade-in-element");
-      container.style.animationDelay = "0.6s";
+      container.style.animationDelay = "0.75s";
+      
+      const footer = document.getElementById("footer");
+      footer.style.display = "block";
 
       renderLeaderboard(data);
     };
