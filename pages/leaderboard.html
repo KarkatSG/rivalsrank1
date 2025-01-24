@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Leaderboard</title>
-  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../public/css/styles.css" />
 </head>
 
 <body>
@@ -14,7 +14,7 @@
       Showing top Hero players with at least 30 matches played.
     </h2>  
     <span class="info-icon-container">
-      <img src="../images/info.png" alt="Info Icon" class="info-icon" id="info-icon">
+      <img src="../public/images/info.png" alt="Info Icon" class="info-icon" id="info-icon">
       <span class="info-tooltip">
         Data pulled from RivalsMeta.com<br>
         Minimum rank: Diamond+<br>
@@ -24,7 +24,7 @@
     </span>
   </div>
   <a href="index.html" class="back-btn">
-    <img src="../images/button.png" alt="More Heroes Button" class="hero-select-btn">
+    <img src="../public/images/button.png" alt="More Heroes Button" class="hero-select-btn">
   </a>
 
   <div class="leaderboard-container" style="display: none;">
@@ -73,15 +73,15 @@
 
       // Mapping rank names to icon file paths
       const rankIcons = {
-        Bronze: "../images/Bronze.png",
-        Silver: "../images/Silver.png",
-        Gold: "../images/Gold.png",
-        Platinum: "../images/Platinum.png",
-        Diamond: "../images/Diamond.png",
-        Grandmaster: "../images/Grandmaster.png",
-        Celestial: "../images/Celestial.png",
-        Eternity: "../images/Eternity.png",
-        "One Above All": "../images/One Above All.png"
+        Bronze: "../public/images/Bronze.png",
+        Silver: "../public/images/Silver.png",
+        Gold: "../public/images/Gold.png",
+        Platinum: "../public/images/Platinum.png",
+        Diamond: "../public/images/Diamond.png",
+        Grandmaster: "../public/images/Grandmaster.png",
+        Celestial: "../public/images/Celestial.png",
+        Eternity: "../public/images/Eternity.png",
+        "One Above All": "../public/images/One Above All.png"
       };
 
       async function fetchLeaderboard(heroName) {
@@ -106,7 +106,7 @@
       function getIconForRank(rankName) {
         // Matches partial rank names (e.g., "Bronze I" -> "Bronze" key)
         const baseRank = Object.keys(rankIcons).find(base => rankName.includes(base));
-        return baseRank ? rankIcons[baseRank] : "../images/default-icon.png";
+        return baseRank ? rankIcons[baseRank] : "../public/images/default-icon.png";
       }
 
       function renderLeaderboard(data) {
