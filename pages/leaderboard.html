@@ -86,19 +86,16 @@
 
       async function fetchLeaderboard(heroName) {
         try {
-          const { data, error } = await supabase
-            .from("leaderboards")
-            .select("*")
-            .eq("character_name", heroName)
-            .order("rank", { ascending: true });
+          const response = await fetch(`/api/fetchLeaderboard?heroName=${encodeURIComponent(heroName)}`);
+          const data = await response.json();
 
-          if (error) {
-            console.error("Error fetching leaderboard:", error);
-            return [];
+          if (!response.ok) {
+            throw new Error(data.error || 'Failed to fetch leaderboard');
           }
+
           return data;
         } catch (err) {
-          console.error("Unexpected error fetching leaderboard:", err);
+          console.error('Unexpected error fetching leaderboard:', err);
           return [];
         }
       }
