@@ -7,27 +7,37 @@
   <link rel="stylesheet" href="../public/css/styles.css" />
   <link rel="icon" href="../public/images/rivalsIcon.png" type="image/png" />
 </head>
-
 <body>
-  <h1 id="hero-name"></h1>
-  <div id="h2-container" style="display: none; width: 100%; justify-content: center;">
-    <h2 id="description">
-      Showing top Hero players with at least 30 matches played.
-    </h2>  
-    <span class="info-icon-container">
-      <img src="../public/images/info.png" alt="Info Icon" class="info-icon" id="info-icon">
-      <span class="info-tooltip">
-        Data pulled from RivalsMeta.com<br>
-        Minimum rank: Diamond+<br>
-        Minimum matches: 30+<br>
-        Updates every hour
-      </span>
-    </span>
+  <!-- Leaderboard Header -->
+  <div class="leaderboard-header">
+    <!-- Back Button -->
+    <a href="/" class="back-btn">
+      <img src="/public/images/button.png" alt="More Heroes Button" class="hero-select-btn">
+    </a>
+
+    <!-- Headings Container -->
+    <div class="heading-container">
+      <h1 id="hero-name"></h1>
+      <!-- Sub-heading (initially hidden; show it via JS) -->
+      <div id="h2-container" class="sub-heading-container hidden">
+        <h2 id="description">
+          Showing top Hero players with at least 30 matches played.
+        </h2>
+        <span class="info-icon-container">
+          <img src="../public/images/info.png" alt="Info Icon" class="info-icon" id="info-icon">
+          <span class="info-tooltip">
+            Data pulled from RivalsMeta.com<br>
+            Minimum rank: Diamond+<br>
+            Minimum matches: 30+<br>
+            Updates every hour
+          </span>
+        </span>
+      </div>
+    </div>
   </div>
-  <a href="/" class="back-btn">
-    <img src="/public/images/button.png" alt="More Heroes Button" class="hero-select-btn">
-  </a>  
-  <div class="leaderboard-container" style="display: none;">
+
+  <!-- Leaderboard Table -->
+  <div class="leaderboard-container hidden">
     <table id="leaderboard">
       <thead>
         <tr>
@@ -43,25 +53,24 @@
       </tbody>
     </table>
   </div>
-  <footer class="site-footer" id="footer">
+
+  <!-- Footer -->
+  <footer class="site-footer hidden" id="footer">
     <p>
       This website is unofficial and is not affiliated with Marvel Rivals, NetEase, 
       or RivalsMeta.com in any way. All trademarks and logos are the property of 
       their respective owners.
     </p>
-  </footer>  
+  </footer>
 
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  
   <script>
     window.onload = async () => {
       const { createClient } = window.supabase;
       const supabase = createClient(
         "https://bqffurypbsbmcuvlsmll.supabase.co",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJxZmZ1cnlwYnNibWN1dmxzbWxsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY3MjQ2MTQsImV4cCI6MjA1MjMwMDYxNH0.QQKl807jEVhOhlCzItIu_Z240LI9mFU0-h0TOFBTTis"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
       );
-
-      console.log("Supabase Instance: ", supabase);
 
       // Function to format hero name from URL
       function formatHeroName(hero) {
@@ -71,7 +80,7 @@
           .join(" ");
       }
 
-      // Mapping rank names to icon file paths
+      // Rank icons
       const rankIcons = {
         Bronze: "../public/images/Bronze.png",
         Silver: "../public/images/Silver.png",
@@ -84,6 +93,7 @@
         "One Above All": "../public/images/One Above All.png"
       };
 
+      // Fetch leaderboard data
       async function fetchLeaderboard(heroName) {
         try {
           const { data, error } = await supabase
@@ -103,73 +113,81 @@
         }
       }
 
+      // Get icon file path based on partial rank name
       function getIconForRank(rankName) {
-        // Matches partial rank names (e.g., "Bronze I" -> "Bronze" key)
         const baseRank = Object.keys(rankIcons).find(base => rankName.includes(base));
         return baseRank ? rankIcons[baseRank] : "../public/images/default-icon.png";
       }
 
+      // Render leaderboard rows
       function renderLeaderboard(data) {
         const tbody = document.querySelector("#leaderboard tbody");
         tbody.innerHTML = "";
 
         data.forEach((entry, index) => {
-          // Create the row as before
           const row = document.createElement("tr");
-
-          // Build row.innerHTML with your rank/player data ...
           const iconPath = getIconForRank(entry.rank_name);
           row.innerHTML = `
             <td>${entry.rank}</td>
             <td>
               <img src="${iconPath}" alt="${entry.rank_name} Icon" class="rank-icon">
-              <a href="https://rivalsmeta.com/player/${entry.player_id}" target=”_blank” style="text-decoration: none; color: #fff">${entry.player_name}</a>
+              <a href="https://rivalsmeta.com/player/${entry.player_id}" 
+                 target="_blank" 
+                 style="text-decoration: none; color: #fff">
+                 ${entry.player_name}
+              </a>
             </td>
             <td>${entry.rank_name}</td>
             <td>${entry.score}</td>
             <td>${entry.matches}</td>
           `;
 
+          // Slight fade-in animation for top 20 rows
           if (index < 20) {
             row.classList.add("fade-in-row");
             row.style.animationDelay = `${index * 0.1 + 1.2}s`;
           }
-          
           tbody.appendChild(row);
         });
       }
 
-      // Grab hero from URL, format it, and fetch data
-      const pathSegments = window.location.pathname.split('/').filter(segment => segment !== '');
-      const rawHero = pathSegments[pathSegments.length - 1];  // Gets "captain-america" from "/leaderboard/captain-america"
+      // Grab hero from the last part of the URL path
+      const pathSegments = window.location.pathname.split('/').filter(Boolean);
+      const rawHero = pathSegments[pathSegments.length - 1];
       const formattedHero = formatHeroName(rawHero);
 
-      const h2container = document.getElementById("h2-container");
+      // Display the headings & info icon
+      const h2Container = document.getElementById("h2-container");
       const h1 = document.getElementById("hero-name");
       const h2 = document.getElementById("description");
       const infoIcon = document.getElementById("info-icon");
-      h2container.style.display = "flex";
+
+      // Remove the "hidden" class to show container elements
+      h2Container.classList.remove("hidden");
       h1.classList.add("fade-in-element");
       h2.classList.add("fade-in-element");
       infoIcon.classList.add("fade-in-element");
+
+      // Delay fade-in for each element
       h1.style.animationDelay = ".25s";
       h2.style.animationDelay = ".25s";
       infoIcon.style.animationDelay = "3s";
 
+      // Fetch data and render
       const data = await fetchLeaderboard(formattedHero);
-
       h1.textContent = `${formattedHero} Leaderboard`;
-      h2.textContent = `Showing top ${formattedHero} players with at least 30 matches played.`;
-
+      h2.textContent = `Showing top ${formattedHero} players with at least 30 matches played.`
 
       const container = document.querySelector(".leaderboard-container");
-      container.style.display = "block";
+      container.classList.remove("hidden");
       container.classList.add("fade-in-element");
       container.style.animationDelay = "0.75s";
-      
-      const footer = document.getElementById("footer");
-      footer.style.display = "block";
 
+      // Show footer
+      const footer = document.getElementById("footer");
+      footer.classList.remove("hidden");
+
+      // Render the final leaderboard
       renderLeaderboard(data);
     };
   </script>
