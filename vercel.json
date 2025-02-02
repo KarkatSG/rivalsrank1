@@ -1,0 +1,9 @@
+{
+    "rewrites": [
+      {
+        "source": "/leaderboard/:hero",
+        "destination": "/pages/leaderboard.html?hero=:hero"
+      }
+    ]
+  }
+  
