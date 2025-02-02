@@ -369,7 +369,7 @@ footer#footer {
   }
 
   .hero-select-btn {
-    position: static;
+    position: relative;
     top: 0px;
     left: 50%;
     width: 6rem;
