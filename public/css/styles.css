@@ -371,7 +371,7 @@ footer#footer {
   .hero-select-btn {
     position: static;
     top: 0px;
-    right: 0px;
+    left: 50%;
     width: 6rem;
     height: fit-content;
     transition: all 0.3s ease;
