@@ -372,8 +372,12 @@ footer#footer {
     position: static;
     top: 0px;
     right: 0px;
-    width: 4rem;
+    width: 6rem;
     height: fit-content;
     transition: all 0.3s ease;
+  }
+
+  .info-icon-container {
+    display: none;
   }
 }
