@@ -334,7 +334,7 @@ footer#footer {
 }
 
 /* For mobile screens */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 750px) {
   h1 {
     font-size: 40px;
     margin: 10px 0;
@@ -366,5 +366,14 @@ footer#footer {
   /* Optional: Adjust grid to fewer columns if needed */
   .hero-grid {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  .hero-select-btn {
+    position: static;
+    top: 0px;
+    right: 0px;
+    width: 4rem;
+    height: fit-content;
+    transition: all 0.3s ease;
   }
 }
