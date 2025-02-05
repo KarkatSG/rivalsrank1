@@ -66,6 +66,9 @@
 
       // Function to format hero name from URL
       function formatHeroName(hero) {
+        if (hero == "cloak-dagger") {
+          return "Cloak & Dagger";
+        }
         return hero
           .split("-")
           .map(word => word.charAt(0).toUpperCase() + word.slice(1))
