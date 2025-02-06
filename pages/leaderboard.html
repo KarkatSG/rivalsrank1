@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Leaderboard</title>
-  <link rel="stylesheet" href="../css/styles.css" />
+  <title>Rivals Rank 1</title>
+  <meta name="description" content="The definitive character leaderboard for Marvel Rivals." />
+  <link rel="stylesheet" href="../public/css/styles.css" />
+  <link rel="icon" href="../public/images/rivalsIcon.png" type="image/png" />
 </head>
 
 <body>
@@ -14,7 +16,7 @@
       Showing top Hero players with at least 30 matches played.
     </h2>  
     <span class="info-icon-container">
-      <img src="../images/info.png" alt="Info Icon" class="info-icon" id="info-icon">
+      <img src="../public/images/info.png" alt="Info Icon" class="info-icon" id="info-icon">
       <span class="info-tooltip">
         Data pulled from RivalsMeta.com<br>
         Minimum rank: Diamond+<br>
@@ -23,10 +25,9 @@
       </span>
     </span>
   </div>
-  <a href="index.html" class="back-btn">
-    <img src="../images/button.png" alt="More Heroes Button" class="hero-select-btn">
-  </a>
-
+  <a href="/" class="back-btn">
+    <img src="/public/images/button.png" alt="More Heroes Button" class="hero-select-btn">
+  </a>  
   <div class="leaderboard-container" style="display: none;">
     <table id="leaderboard">
       <thead>
@@ -65,23 +66,26 @@
 
       // Function to format hero name from URL
       function formatHeroName(hero) {
+        if (hero == "cloak-dagger") {
+          return "Cloak & Dagger";
+        }
         return hero
-          .split("-") 
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1)) 
+          .split("-")
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
           .join(" ");
       }
 
       // Mapping rank names to icon file paths
       const rankIcons = {
-        Bronze: "../images/Bronze.png",
-        Silver: "../images/Silver.png",
-        Gold: "../images/Gold.png",
-        Platinum: "../images/Platinum.png",
-        Diamond: "../images/Diamond.png",
-        Grandmaster: "../images/Grandmaster.png",
-        Celestial: "../images/Celestial.png",
-        Eternity: "../images/Eternity.png",
-        "One Above All": "../images/One Above All.png"
+        Bronze: "../public/images/Bronze.png",
+        Silver: "../public/images/Silver.png",
+        Gold: "../public/images/Gold.png",
+        Platinum: "../public/images/Platinum.png",
+        Diamond: "../public/images/Diamond.png",
+        Grandmaster: "../public/images/Grandmaster.png",
+        Celestial: "../public/images/Celestial.png",
+        Eternity: "../public/images/Eternity.png",
+        "One Above All": "../public/images/One Above All.png"
       };
 
       async function fetchLeaderboard(heroName) {
@@ -103,7 +107,7 @@
       function getIconForRank(rankName) {
         // Matches partial rank names (e.g., "Bronze I" -> "Bronze" key)
         const baseRank = Object.keys(rankIcons).find(base => rankName.includes(base));
-        return baseRank ? rankIcons[baseRank] : "../images/default-icon.png";
+        return baseRank ? rankIcons[baseRank] : "../public/images/default-icon.png";
       }
 
       function renderLeaderboard(data) {
@@ -120,11 +124,12 @@
             <td>${entry.rank}</td>
             <td>
               <img src="${iconPath}" alt="${entry.rank_name} Icon" class="rank-icon">
-              ${entry.player_name}
+              <a href="https://rivalsmeta.com/player/${entry.player_id}" target=”_blank” style="text-decoration: none; color: #fff">${entry.player_name}</a>
             </td>
             <td>${entry.rank_name}</td>
             <td>${entry.score}</td>
             <td>${entry.matches}</td>
+            <td>${entry.winrate}</td>
           `;
 
           if (index < 20) {
@@ -137,8 +142,8 @@
       }
 
       // Grab hero from URL, format it, and fetch data
-      const urlParams = new URLSearchParams(window.location.search);
-      const rawHero = urlParams.get("hero");
+      const pathSegments = window.location.pathname.split('/').filter(segment => segment !== '');
+      const rawHero = pathSegments[pathSegments.length - 1];  // Gets "captain-america" from "/leaderboard/captain-america"
       const formattedHero = formatHeroName(rawHero);
 
       const h2container = document.getElementById("h2-container");
