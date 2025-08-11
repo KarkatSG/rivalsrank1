@@ -46,6 +46,10 @@
       </tbody>
     </table>
   </div>
+  <div id="no-data" style="display:none; text-align:center; margin-top:40px; font-size:20px; color:#ccc;">
+  No leaderboard data is available for this hero.<br>
+  Please check <a href="https://rivalsmeta.com" target="_blank" style="color:#4da3ff; text-decoration:underline;">RivalsMeta.com</a> for more info.
+  </div>
   <footer class="site-footer" id="footer">
     <p>
       This website is unofficial and is not affiliated with Marvel Rivals, NetEase, 
@@ -170,9 +174,19 @@
 
 
       const container = document.querySelector(".leaderboard-container");
-      container.style.display = "block";
-      container.classList.add("fade-in-element");
-      container.style.animationDelay = "0.75s";
+      const noDataMessage = document.getElementById("no-data");
+
+      if (data.length === 0) {
+        // Hide the table container
+        container.style.display = "none";
+        // Show the fallback message
+        noDataMessage.style.display = "block";
+      } else {
+        container.style.display = "block";
+        container.classList.add("fade-in-element");
+        container.style.animationDelay = "0.75s";
+        renderLeaderboard(data);
+      }
       
       const footer = document.getElementById("footer");
       footer.style.display = "block";
